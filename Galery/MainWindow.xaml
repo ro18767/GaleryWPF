@@ -1,0 +1,40 @@
+﻿<Window x:Class="Galery.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Galery"
+        mc:Ignorable="d"
+        Title="MainWindow" 
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        WindowStartupLocation="CenterScreen"
+        SizeToContent="WidthAndHeight"
+        Loaded="Window_Loaded" SizeChanged="Window_SizeChanged" 
+        DragDrop.Drop="Window_Drop" DragDrop.DragEnter="Window_Drag" DragDrop.DragOver="Window_Drag" AllowDrop="true"
+        >
+    <!--DataContext="{Binding RelativeSource={RelativeSource Self}}"-->
+    <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto" MinHeight="450" MinWidth="320" 
+                  >
+        <StackPanel >
+            <Button Click="AddImageBtn_Click" FontSize="25">Add Files</Button>
+            <StackPanel x:Name="MainElement"  Orientation="Vertical">
+            </StackPanel>
+            <ItemsControl ItemsSource="{Binding List}" FontSize="25" d:ItemsSource="{d:SampleData ItemCount=2}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <!--<TextBlock Text="{Binding PixelHeight}"></TextBlock>
+                            <TextBlock Text="{Binding PixelHeight}"></TextBlock>
+                            <TextBlock Text="{Binding FormatedFileSize}"></TextBlock>-->
+                            <TextBlock Text="{Binding FormatedCreationTime}"></TextBlock>
+                            <TextBlock Text="{Binding FullPath}"></TextBlock>
+                            <Button Click="DeleteImageBtn_Click" DataContext="{Binding Path=.}">Delete</Button>
+                            <Image HorizontalAlignment="Left" Height="256" Margin="0" VerticalAlignment="Top" Width="256" Source="{Binding FullPath}"></Image>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+
+    </ScrollViewer>
+</Window>
