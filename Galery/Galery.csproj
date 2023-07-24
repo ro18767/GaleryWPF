@@ -26,9 +26,6 @@
     <None Update="resouses\NotSupportedFormatImg.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="resouses\NP - Copy.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="resouses\NP.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

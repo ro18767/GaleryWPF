@@ -9,32 +9,48 @@
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         WindowStartupLocation="CenterScreen"
         SizeToContent="WidthAndHeight"
+        IsVisibleChanged="Window_IsVisibleChanged"
         Loaded="Window_Loaded" SizeChanged="Window_SizeChanged" 
         DragDrop.Drop="Window_Drop" DragDrop.DragEnter="Window_Drag" DragDrop.DragOver="Window_Drag" AllowDrop="true"
+        Style="{StaticResource Window}"
         >
-    <!--DataContext="{Binding RelativeSource={RelativeSource Self}}"-->
+
     <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto" MinHeight="450" MinWidth="320" 
                   >
         <StackPanel >
-            <Button Click="AddImageBtn_Click" FontSize="25">Add Files</Button>
+            <Button Style="{StaticResource BtnPrimary}" Click="AddImageBtn_Click" FontSize="25">
+                <Viewbox  Width="48" Height="48">
+                    <Canvas Width="960" Height="960" >
+                        <Path Canvas.Left="0" Canvas.Top="-96" Width="960" Height="960"  Data="M450 856V606H200v-60h250V296h60v250h250v60H510v250h-60Z" Fill="#FFFFFFFF"></Path>
+                    </Canvas>
+                </Viewbox>
+            </Button>
             <StackPanel x:Name="MainElement"  Orientation="Vertical">
             </StackPanel>
             <ItemsControl ItemsSource="{Binding List}" FontSize="25" d:ItemsSource="{d:SampleData ItemCount=2}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
-                            <!--<TextBlock Text="{Binding PixelHeight}"></TextBlock>
-                            <TextBlock Text="{Binding PixelHeight}"></TextBlock>
-                            <TextBlock Text="{Binding FormatedFileSize}"></TextBlock>-->
-                            <TextBlock Text="{Binding FormatedCreationTime}"></TextBlock>
-                            <TextBlock Text="{Binding FullPath}"></TextBlock>
-                            <Button Click="DeleteImageBtn_Click" DataContext="{Binding Path=.}">Delete</Button>
-                            <Image HorizontalAlignment="Left" Height="256" Margin="0" VerticalAlignment="Top" Width="256" Source="{Binding FullPath}"></Image>
+                            <!--<TextBlock Text="{Binding PixelHeight}"></TextBlock>-->
+                            <!--<TextBlock Text="{Binding PixelHeight}"></TextBlock>-->
+                            <!--<TextBlock Text="{Binding FormatedFileSize}"></TextBlock>-->
+                            <!--<TextBlock Text="{Binding FormatedCreationDate}" d:Text="2004-12-28" TextWrapping="Wrap"></TextBlock>-->
+                            <!--<TextBlock Text="{Binding FullPath}" d:Text="C:\1\example.png" TextWrapping="Wrap"/>-->
+                            <Button Style="{StaticResource BtnDanger}" Click="DeleteImageBtn_Click" DataContext="{Binding Path=.}">
+                                <Viewbox  Width="48" Height="48">
+                                    <Canvas Width="960" Height="960" >
+                                        <Path Canvas.Left="0" Canvas.Top="-96" Width="960" Height="960"  Data="M261 936q-24.75 0-42.375-17.625T201 876V306h-41v-60h188v-30h264v30h188v60h-41v570q0 24-18 42t-42 18H261Zm438-630H261v570h438V306ZM367 790h60V391h-60v399Zm166 0h60V391h-60v399ZM261 306v570-570Z" Fill="#FFFFFFFF"></Path>
+                                    </Canvas>
+                                </Viewbox>
+                            </Button>
+                            <Button Style="{StaticResource BtnGhost}" Click="Preview_Click" DataContext="{Binding Path=.}">
+                                <Image HorizontalAlignment="Center" Height="256" Margin="0" VerticalAlignment="Center" Width="256" Source="{Binding PreviewFullPath}" d:Source="./resouses/NP.png"></Image>
+                            </Button>
+
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </StackPanel>
-
     </ScrollViewer>
 </Window>

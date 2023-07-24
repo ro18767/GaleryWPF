@@ -53,9 +53,6 @@ namespace Galery
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
              
-            double dWidth = 1;
-            double dHeight = 1;
-
             // записать минимальный размер
             this.MinWidth = this.Width;
             this.MinHeight = this.Height;
@@ -64,26 +61,12 @@ namespace Galery
             this.SizeToContent = SizeToContent.Manual;
             this.WindowState = WindowState.Maximized;
 
-            //dWidth = MainElement.ActualWidth;
-            //dHeight = MainElement.ActualHeight;
-
-            //MessageBox.Show($"{dWidth} {dHeight} Window_Loaded");
-   
-            
-
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (!this.IsLoaded) return;
 
-            //double dWidth = 1;
-            //double dHeight = 1;
-
-            //dWidth = MainElement.ActualWidth;
-            //dHeight = MainElement.ActualHeight;
-
-            // MessageBox.Show($"{dWidth} {dHeight} Window_SizeChanged");
         }
 
         #region Files
@@ -230,25 +213,33 @@ namespace Galery
         private void DeleteImageBtn_Click(object sender, RoutedEventArgs e)
         {
             var item = (sender as Button)?.DataContext as ImageInfo;
-            if (item is not ImageInfo) return;
+            if (item is null) return;
             ImageInfo info = item;
 
             List.Remove(info);
         }
+
+        private void Preview_Click(object sender, RoutedEventArgs e)
+        {
+            var item = (sender as Button)?.DataContext as ImageInfo;
+            if (item is null) return;
+            ImageInfo info = item;
+
+            Hide();
+            new PreviewWindow(info).ShowDialog();
+            Show();
+        }
+
+        private void Window_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (!this.IsVisible) return;
+            if (!this.IsLoaded) return;
+            // открыть на полный экран
+            this.SizeToContent = SizeToContent.Manual;
+            this.WindowState = WindowState.Maximized;
+        }
     }
 
-    public class ImageInfo
-    {
-        public string FullPath { get; set; } = null!;
-        public string PreviewFullPath { get; set; } = null!;
 
-        public long PixelWidth { get; set; } = 0;
-        public long PixelHeight { get; set; } = 0;
-        public long FileSize { get; set; } = 0;
-        public string FormatedFileSize { get => $"{Math.Ceiling(this.FileSize / 1024.0):N} KB"; }
-        public DateTime CreationTime { get; set; } = DateTime.Now;
-        public string FormatedCreationTime { get => this.CreationTime.ToString("yyyy\'-\'MM\'-\'dd"); }
-
-    }
 
 }
