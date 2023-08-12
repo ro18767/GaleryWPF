@@ -10,7 +10,7 @@
   <ItemGroup>
     <None Remove="Resouses/NotSupportedFormatImg.png" />
     <None Remove="Resouses/TooLargeImg.png" />
-	<None Remove="Resouses/NP.png" />
+    <None Remove="Resouses/icon_1.ico" />
   </ItemGroup>
 
   <ItemGroup>
