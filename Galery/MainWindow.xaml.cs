@@ -1,10 +1,14 @@
-﻿using Microsoft.Win32;
+﻿using Galery.Data;
+using Galery.Data.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,15 +29,29 @@ namespace Galery
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static readonly Uri TooLargeImgUri = new Uri(System.IO.Path.GetFullPath("./resouses/TooLargeImg.png"), UriKind.RelativeOrAbsolute);
-        private static readonly Uri NotSupportedFormatImgUri = new Uri(System.IO.Path.GetFullPath("./resouses/NotSupportedFormatImg.png"), UriKind.RelativeOrAbsolute);
+        private static readonly Uri TooLargeImgUri = new Uri(@"pack://application:,,,/"
+    + Assembly.GetExecutingAssembly().GetName().Name
+    + ";component/"
+    + "Resouses/TooLargeImg.png", UriKind.Absolute);
+        private static readonly Uri NotSupportedFormatImgUri = new Uri(@"pack://application:,,,/"
+    + Assembly.GetExecutingAssembly().GetName().Name
+    + ";component/"
+    + "Resouses/NotSupportedFormatImg.png", UriKind.Absolute);
+
         private static CultureInfo cultureInfo = new CultureInfo("en-US");
 
         public ObservableCollection<ImageInfo> List { get; set; } = new();
 
+        private DataContext DBContext { get; set; } = AppDBContext.getInstance();
+
         public MainWindow()
         {
             InitializeComponent();
+
+            foreach (var imageInfo in DBContext.ImageInfo.ToList())
+            {
+                List.Add(imageInfo);
+            }
             // DataContext = this;
         }
 
@@ -166,16 +184,22 @@ namespace Galery
             {
                 MessageBox.Show(ex.Message);
             }
+
             //MessageBox.Show(uri.OriginalString);
-            List.Add(new()
+            ImageInfo imageInfo = new()
             {
+                Id = Guid.NewGuid(),
                 PreviewFullPath = previewUri.OriginalString,
                 FullPath = uri.OriginalString,
                 CreationTime = fi.CreationTime,
                 FileSize = fi.Length,
                 PixelWidth = bitmap?.PixelWidth ?? 0,
                 PixelHeight = bitmap?.PixelHeight ?? 0,
-            });
+            };
+            DBContext.ImageInfo.Add(imageInfo);
+            List.Add(imageInfo);
+
+            DBContext.SaveChanges();
         }
 
 
@@ -210,13 +234,19 @@ namespace Galery
         }
         #endregion DragAndDrop
 
+        #region DB
+
+        #endregion DB
         private void DeleteImageBtn_Click(object sender, RoutedEventArgs e)
         {
             var item = (sender as Button)?.DataContext as ImageInfo;
             if (item is null) return;
             ImageInfo info = item;
 
+            DBContext.ImageInfo.Remove(info);
             List.Remove(info);
+
+            DBContext.SaveChanges();
         }
 
         private void Preview_Click(object sender, RoutedEventArgs e)

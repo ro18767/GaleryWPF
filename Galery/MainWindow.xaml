@@ -12,7 +12,8 @@
         IsVisibleChanged="Window_IsVisibleChanged"
         Loaded="Window_Loaded" SizeChanged="Window_SizeChanged" 
         DragDrop.Drop="Window_Drop" DragDrop.DragEnter="Window_Drag" DragDrop.DragOver="Window_Drag" AllowDrop="true"
-        Style="{StaticResource Window}"
+        Style="{StaticResource Window}" 
+        Icon="/Resouses/icon_1.ico"
         >
 
     <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto" MinHeight="450" MinWidth="320" 
@@ -44,7 +45,7 @@
                                 </Viewbox>
                             </Button>
                             <Button Style="{StaticResource BtnGhost}" Click="Preview_Click" DataContext="{Binding Path=.}">
-                                <Image HorizontalAlignment="Center" Height="256" Margin="0" VerticalAlignment="Center" Width="256" Source="{Binding PreviewFullPath}" d:Source="./resouses/NP.png"></Image>
+                                <Image HorizontalAlignment="Center" Height="256" Margin="0" VerticalAlignment="Center" Width="256" Source="{Binding PreviewFullPath}" d:Source="./Resouses/NP.png"></Image>
                             </Button>
 
                         </StackPanel>
