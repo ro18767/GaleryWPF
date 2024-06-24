@@ -15,7 +15,10 @@ namespace Galery.Data
         {
             string path = Directory.GetCurrentDirectory();
 
-            string connectionString = @$"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={path}\Database1.mdf;Integrated Security=True";
+            SqlConnection sqlConnection = GetSqlConnection();
+            connection.Open();
+            using SqlCommand cmd = new("SELECT Id, FullPath, PreviewFullPath, PixelWidth, PixelHeight, FileSize, CreationTime FROM ImageInfos", connection);
+            {
 
             optionsBuilder.UseSqlServer(connectionString);
         }
