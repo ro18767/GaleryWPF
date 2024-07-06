@@ -48,7 +48,7 @@ namespace Galery
         {
             InitializeComponent();
 
-            foreach (var imageInfo in DBContext.ImageInfo.ToList())
+            foreach (var imageInfo in DBContext.ImageInfos.ToList())
             {
                 List.Add(imageInfo);
             }
@@ -196,10 +196,8 @@ namespace Galery
                 PixelWidth = bitmap?.PixelWidth ?? 0,
                 PixelHeight = bitmap?.PixelHeight ?? 0,
             };
-            DBContext.ImageInfo.Add(imageInfo);
+            DBContext.Add(imageInfo);
             List.Add(imageInfo);
-
-            DBContext.SaveChanges();
         }
 
 
@@ -243,10 +241,9 @@ namespace Galery
             if (item is null) return;
             ImageInfo info = item;
 
-            DBContext.ImageInfo.Remove(info);
+            DBContext.Remove(info);
             List.Remove(info);
 
-            DBContext.SaveChanges();
         }
 
         private void Preview_Click(object sender, RoutedEventArgs e)
